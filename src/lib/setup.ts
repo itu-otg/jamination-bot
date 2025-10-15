@@ -46,5 +46,6 @@ declare module '@sapphire/framework' {
 		OwnerOnly: never;
 		TeamLeadOnly: never;
     TeamMemberOnly: never;
+    NotInTeam: never;
 	}
 }
