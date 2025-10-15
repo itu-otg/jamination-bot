@@ -5,7 +5,6 @@ import { GatewayIntentBits, Partials } from 'discord.js';
 
 const client = new SapphireClient({
 	defaultPrefix: '!',
-	regexPrefix: /^(hey +)?bot[,! ]/i,
 	caseInsensitiveCommands: true,
 	logger: {
 		level: LogLevel.Debug
