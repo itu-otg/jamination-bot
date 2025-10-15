@@ -30,9 +30,3 @@ export class TeamLeadOnly extends AllFlowsPrecondition {
 	}
 }
 
-declare module '@sapphire/framework' {
-	interface Preconditions {
-		OwnerOnly: never;
-		TeamLeadOnly: never;
-	}
-}

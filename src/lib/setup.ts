@@ -40,3 +40,11 @@ declare module '@sapphire/pieces' {
     db: PrismaClient;
   }
 }
+
+declare module '@sapphire/framework' {
+	interface Preconditions {
+		OwnerOnly: never;
+		TeamLeadOnly: never;
+    TeamMemberOnly: never;
+	}
+}
