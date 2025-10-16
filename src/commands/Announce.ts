@@ -5,7 +5,7 @@ import { ChannelType, EmbedBuilder, TextChannel } from 'discord.js';
 @ApplyOptions<Command.Options>({
 	name: 'duyuru',
 	description: 'Ayarlanmış bildirim kanalına bildirim gönderir. (Sadece moderasyon ekibi kullanabilir)',
-  preconditions: ["GuildOnly", "JamManagerOnly"]
+	preconditions: ['GuildOnly', 'JamManagerOnly']
 })
 export class UserCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
@@ -15,12 +15,21 @@ export class UserCommand extends Command {
 				.setDescription(this.description)
 				.addStringOption((b) => b.setName('content').setDescription('Bildirim içeriği').setRequired(true))
 				.addBooleanOption((b) => b.setName('embed').setDescription('Embed olarak gönder'))
+				.addBooleanOption((b) => b.setName('mention-everyone').setDescription('Herkesi etiketle'))
 		);
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		const content = interaction.options.getString('message');
+		let content = interaction.options.getString('message');
 		const useEmbed = interaction.options.getBoolean('embed') ?? false;
+		const mentionEveryone = interaction.options.getBoolean('mention-everyone') ?? false;
+
+		if (mentionEveryone) {
+			content = `${content}
+
+      <@${interaction.guildId}>
+      `;
+		}
 
 		const guildSettings = await this.container.db.guildSettings.findFirst({
 			where: { guildID: interaction.guildId! }
