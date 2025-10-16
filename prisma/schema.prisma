@@ -15,6 +15,7 @@ model GuildSettings {
   prefix                  String?
   lastConfigUpdate        DateTime?
   jamPositionateChannelID String?
+  isActive                Boolean   @default(false)
 }
 
 model GuildUser {
