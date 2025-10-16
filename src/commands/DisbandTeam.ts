@@ -3,7 +3,7 @@ import { Command } from '@sapphire/framework';
 import { ChannelType, EmbedBuilder } from 'discord.js';
 
 @ApplyOptions<Command.Options>({
-	name: 'takim-sil',
+	name: 'takım-sil',
 	description: 'Takımı yanlışlıkla mı oluşturdun? Hiç sorun değil. Bu komut ile silebilirsin!',
 	preconditions: ['TeamLeadOnly', 'GuildOnly']
 })
@@ -11,7 +11,9 @@ export class UserCommand extends Command {
 	#successEmbed = new EmbedBuilder()
 		.setTitle('Takım başarıyla silindi!')
 		.setDescription('Artık başka bir takıma katılabilir ya da arkadaşınız sizi takımına ekleyebilir!')
-		.setColor(0x7f91bd);
+		.setColor(0x7f91bd)
+		.setTimestamp()
+		.setFooter({ text: 'Jamination Bot', iconURL: this.container.client.user?.displayAvatarURL() ?? undefined });
 
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) =>

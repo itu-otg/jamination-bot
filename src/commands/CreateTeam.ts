@@ -8,7 +8,10 @@ import { ChannelType, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 	preconditions: ['NotInTeam', 'GuildOnly']
 })
 export class UserCommand extends Command {
-	#successEmbed = new EmbedBuilder().setTitle('Takım oluşturuldu!').setColor(0x7f91bd);
+	#successEmbed = new EmbedBuilder()
+		.setTitle('Takım oluşturuldu!')
+		.setColor(0x7f91bd)
+		.setFooter({ text: 'Jamination Bot', iconURL: this.container.client.user?.displayAvatarURL() ?? undefined });
 
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) =>
