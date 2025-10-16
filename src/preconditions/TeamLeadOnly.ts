@@ -20,11 +20,17 @@ export class TeamLeadOnly extends AllFlowsPrecondition {
 	}
 
 	private async doTeamLeadCheck(userId: Snowflake) {
-		const teamByLeaderId = await this.container.db.jamTeamMember.findFirst({
-			where: {
-				userID: userId
-			}
-		});
+    const teamByLeaderId = await this.container.db.jamTeam.findFirst({
+      where: {
+        members: {
+          some: {
+            userID: userId
+          }
+        }
+      }
+    })
+
+    this.container.logger.info(teamByLeaderId)
 
 		return !!teamByLeaderId;
 	}
