@@ -38,6 +38,7 @@ export class UserCommand extends Command {
 		}
 
 		const category = await interaction.guild?.channels.fetch(teamToDelete.categoryID);
+		const role = await interaction.guild?.roles.fetch(teamToDelete.discordRoleID);
 
 		if (!category || category.type !== ChannelType.GuildCategory) {
 			return interaction.editReply({
@@ -45,12 +46,19 @@ export class UserCommand extends Command {
 			});
 		}
 
-		const children = category.children.cache;
-		for (const [, child] of children) {
-			await child.delete().catch(console.error);
+		if (!role) {
+			return interaction.editReply({
+				content: 'Ekip rolü bulunamadı veya geçersiz.'
+			});
 		}
 
-		await category.delete().catch(console.error);
+		const children = category.children.cache;
+		for (const [, child] of children) {
+			await child.delete().catch(this.container.logger.error);
+		}
+
+		await category.delete().catch(this.container.logger.error);
+    await category.delete().catch(this.container.logger.error)
 
 		await this.container.db.jamTeam.delete({
 			where: {
