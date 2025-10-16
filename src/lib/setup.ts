@@ -47,5 +47,6 @@ declare module '@sapphire/framework' {
 		TeamLeadOnly: never;
     TeamMemberOnly: never;
     NotInTeam: never;
+    JamManagerOnly: never;
 	}
 }
