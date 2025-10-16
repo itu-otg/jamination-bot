@@ -64,7 +64,8 @@ export class StartJam extends Command {
 				guildID: guildID.toString(),
 				adminRoleID: modRole.toString(),
         notificationChannelID: notificationChannel,
-				jamPositionateChannelID: positionette.toString()
+				jamPositionateChannelID: positionette.toString(),
+        isActive: true,
 			}
 		});
 	}
