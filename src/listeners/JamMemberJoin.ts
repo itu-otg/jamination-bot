@@ -8,6 +8,7 @@ import { GuildMember } from 'discord.js';
 })
 export class UserEvent extends Listener<typeof Events.GuildMemberAdd> {
 	public override async run(member: GuildMember) {
+    this.container.logger.info(`Member join! ${member.user.username}`);
 		try {
 			if (j8MemberList.includes(member.user.username)) {
 				await member.roles.add('1426867656073416755');
