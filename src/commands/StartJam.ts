@@ -30,9 +30,9 @@ export class StartJam extends Command {
 		const notificationChannel = interaction.options.getChannel('notification-channel');
 		const positionette = interaction.options.getChannel('positionette');
 
-    if (positionette && positionette.type !== ChannelType.GuildCategory) {
-      return interaction.reply({ content: "Pozisyonlama parametresi sadece categori kabul eder."})
-    }
+		if (positionette && positionette.type !== ChannelType.GuildCategory) {
+			return interaction.reply({ content: 'Pozisyonlama parametresi sadece categori kabul eder.' });
+		}
 
 		const res = await this.setJamServerSettings(
 			interaction.guildId!,
@@ -41,31 +41,41 @@ export class StartJam extends Command {
 			positionette!.id.toString()
 		);
 
-    const embed = new EmbedBuilder()
-      .setTitle('✅ Jamination Ayarları Kaydedildi')
-      .setDescription('Sunucu ayarları başarıyla kaydedildi:')
-      .setColor(0x00AE86)
-      .addFields(
-        { name: 'Guild ID', value: res.guildID.toString(), inline: false },
-        { name: 'Admin Role', value: `<@&${res.adminRoleID}>`, inline: true },
-        { name: 'Bildirim Kanalı', value: `<#${res.jamPositionateChannelID}>`, inline: true },
-        { name: 'Pozisyonlama Kategorisi', value: `<#${res.jamPositionateChannelID}>`, inline: true }
-      )
-      .setTimestamp()
-      .setFooter({ text: 'Jamination Bot', iconURL: interaction.client.user?.displayAvatarURL() ?? undefined });
-
+		const embed = new EmbedBuilder()
+			.setTitle('✅ Jamination Ayarları Kaydedildi')
+			.setDescription('Sunucu ayarları başarıyla kaydedildi:')
+			.setColor(0x00ae86)
+			.addFields(
+				{ name: 'Guild ID', value: res.guildID.toString(), inline: false },
+				{ name: 'Admin Role', value: `<@&${res.adminRoleID}>`, inline: true },
+				{ name: 'Bildirim Kanalı', value: `<#${res.jamPositionateChannelID}>`, inline: true },
+				{ name: 'Pozisyonlama Kategorisi', value: `<#${res.jamPositionateChannelID}>`, inline: true }
+			)
+			.setTimestamp()
+			.setFooter({ text: 'Jamination Bot', iconURL: interaction.client.user?.displayAvatarURL() ?? undefined });
 
 		return interaction.reply({ embeds: [embed] });
 	}
 
-	private setJamServerSettings(guildID: string, modRole: string, notificationChannel: string, positionette: string) {
-		return this.container.db.guildSettings.create({
-			data: {
-				guildID: guildID.toString(),
-				adminRoleID: modRole.toString(),
-        notificationChannelID: notificationChannel,
-				jamPositionateChannelID: positionette.toString(),
-        isActive: true,
+	private async setJamServerSettings(guildID: string, modRole: string, notificationChannel: string, positionette: string) {
+		return this.container.db.guildSettings.upsert({
+			where: {
+				guildID
+			},
+			create: {
+				guildID: guildID,
+				adminRoleID: modRole,
+				notificationChannelID: notificationChannel,
+				jamPositionateChannelID: positionette,
+				isActive: true
+			},
+			update: {
+				guildID: guildID,
+				adminRoleID: modRole,
+				notificationChannelID: notificationChannel,
+				jamPositionateChannelID: positionette,
+				isActive: true,
+        lastConfigUpdate: new Date(),
 			}
 		});
 	}

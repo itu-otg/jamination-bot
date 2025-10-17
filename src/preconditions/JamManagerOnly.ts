@@ -23,6 +23,7 @@ export class JamManagerOnly extends AllFlowsPrecondition {
 		const guildSettings = await this.container.db.guildSettings.findFirst({
       where: {
         guildID: guildID,
+        isActive: true,
       }
     })
 
