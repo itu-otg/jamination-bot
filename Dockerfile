@@ -1,23 +1,20 @@
-# Use a lightweight Node image
+# Lightweight Node image
 FROM node:20-alpine
 
-# Enable corepack so we can use Yarn 4
+# Enable Yarn 4
 RUN corepack enable
 
 WORKDIR /app
 
-# Copy only package files first for efficient caching
-COPY package.json yarn.lock .yarnrc.yml ./
+# Copy everything at once (no caching tricks)
+COPY . .
 
 # Install dependencies
 RUN yarn install
 
-# Copy the rest of the source
-COPY . .
-
-# Build TypeScript -> dist/
+# Build TypeScript
 RUN yarn build
 
-# Run Prisma migrations before starting
+# Run Prisma migrations then start bot
 CMD sh -c "yarn prisma migrate deploy && yarn start"
 
