@@ -13,6 +13,8 @@ export class UserCommand extends Command {
 		.setColor(0x7f91bd)
 		.setFooter({ text: 'Jamination Bot', iconURL: this.container.client.user?.displayAvatarURL() ?? undefined });
 
+    #j8roleID = "1426867656073416755";
+
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) =>
 			builder
@@ -23,6 +25,7 @@ export class UserCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+    // FIXME: Remove this after j8;
 		await interaction.deferReply(); // Defer first to avoid double reply errors
 
 		const teamName = interaction.options.getString('team-name', true);
@@ -78,6 +81,9 @@ export class UserCommand extends Command {
 
 			// Update category permissions for the team role
 			await category.permissionOverwrites.set([
+        {
+          id: this.#j8roleID
+        },
 				{
 					id: role.id,
 					allow: [
