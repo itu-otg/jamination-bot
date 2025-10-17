@@ -58,7 +58,7 @@ export class UserCommand extends Command {
 		}
 
 		await category.delete().catch(this.container.logger.error);
-    await category.delete().catch(this.container.logger.error)
+    await role.delete().catch(this.container.logger.error)
 
 		await this.container.db.jamTeam.delete({
 			where: {
