@@ -80,15 +80,26 @@ export class UserCommand extends Command {
 			await category.permissionOverwrites.set([
 				{
 					id: role.id,
-					allow: [PermissionFlagsBits.ViewChannel]
-				},
-				{
-					id: interaction.guild!.roles.everyone.id,
-					deny: [PermissionFlagsBits.ViewChannel]
+					allow: [
+						PermissionFlagsBits.ViewChannel,
+						PermissionFlagsBits.SendMessages,
+						PermissionFlagsBits.AddReactions,
+						PermissionFlagsBits.AttachFiles,
+						PermissionFlagsBits.UseExternalEmojis,
+						PermissionFlagsBits.Connect,
+						PermissionFlagsBits.Speak,
+						PermissionFlagsBits.Stream,
+						PermissionFlagsBits.UseVAD,
+            PermissionFlagsBits.ManageMessages,
+            PermissionFlagsBits.MoveMembers
+					]
 				}
 			]);
 
 			const initialMember = { userID: interaction.user.id, role: 'Takım Lideri', isTeamLeader: true };
+			const member = await interaction.guild!.members.fetch(interaction.user.id);
+
+			await member.roles.add(role.id);
 
 			await this.container.db.jamTeam.create({
 				data: {

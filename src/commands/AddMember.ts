@@ -49,6 +49,9 @@ export class UserCommand extends Command {
 			return interaction.reply({ content: 'Bu kullanıcı zaten takımda!', ephemeral: true });
 		}
 
+		const resolvedMember = await interaction.guild!.members.fetch(member.id);
+		await resolvedMember.roles.add(team.discordRoleID);
+
 		// Add the new member
 		await this.container.db.jamTeamMember.create({
 			data: {
