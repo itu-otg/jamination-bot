@@ -13,8 +13,6 @@ export class UserCommand extends Command {
 		.setColor(0x7f91bd)
 		.setFooter({ text: 'Jamination Bot', iconURL: this.container.client.user?.displayAvatarURL() ?? undefined });
 
-	#j8roleID = '1426867656073416755';
-
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) =>
 			builder
@@ -103,9 +101,6 @@ export class UserCommand extends Command {
 						PermissionFlagsBits.SendVoiceMessages
 					]
 				},
-				{
-					id: this.#j8roleID
-				}
 			]);
 
       await textChannel.lockPermissions();
@@ -114,7 +109,7 @@ export class UserCommand extends Command {
 			const initialMember = { userID: interaction.user.id, role: 'Takım Lideri', isTeamLeader: true };
 			const member = await interaction.guild!.members.fetch(interaction.user.id);
 
-			await member.roles.add(role.id);
+			await member.roles.add(role);
 
 			await this.container.db.jamTeam.create({
 				data: {
