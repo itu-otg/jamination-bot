@@ -7,7 +7,7 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy only package files first for efficient caching
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 
 # Install dependencies
 RUN yarn install
