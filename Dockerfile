@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install --immutable
+RUN yarn install
 
 # Copy the rest of the source
 COPY . .
