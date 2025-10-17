@@ -13,7 +13,7 @@ export class UserCommand extends Command {
 		.setColor(0x7f91bd)
 		.setFooter({ text: 'Jamination Bot', iconURL: this.container.client.user?.displayAvatarURL() ?? undefined });
 
-    #j8roleID = "1426867656073416755";
+	#j8roleID = '1426867656073416755';
 
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) =>
@@ -25,7 +25,7 @@ export class UserCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-    // FIXME: Remove this after j8;
+		// FIXME: Remove this after j8;
 		await interaction.deferReply(); // Defer first to avoid double reply errors
 
 		const teamName = interaction.options.getString('team-name', true);
@@ -81,9 +81,6 @@ export class UserCommand extends Command {
 
 			// Update category permissions for the team role
 			await category.permissionOverwrites.set([
-        {
-          id: this.#j8roleID
-        },
 				{
 					id: role.id,
 					allow: [
@@ -96,11 +93,23 @@ export class UserCommand extends Command {
 						PermissionFlagsBits.Speak,
 						PermissionFlagsBits.Stream,
 						PermissionFlagsBits.UseVAD,
-            PermissionFlagsBits.ManageMessages,
-            PermissionFlagsBits.MoveMembers
+						PermissionFlagsBits.ManageMessages,
+						PermissionFlagsBits.MoveMembers,
+						PermissionFlagsBits.UseSoundboard,
+						PermissionFlagsBits.EmbedLinks,
+						PermissionFlagsBits.SendPolls,
+						PermissionFlagsBits.UseExternalSounds,
+						PermissionFlagsBits.UseExternalStickers,
+						PermissionFlagsBits.SendVoiceMessages
 					]
+				},
+				{
+					id: this.#j8roleID
 				}
 			]);
+
+      await textChannel.lockPermissions();
+      await voiceChannel.lockPermissions();
 
 			const initialMember = { userID: interaction.user.id, role: 'Takım Lideri', isTeamLeader: true };
 			const member = await interaction.guild!.members.fetch(interaction.user.id);
