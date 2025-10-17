@@ -3,7 +3,6 @@ version: "3.9"
 services:
   bot:
     build:
-      context: https://github.com/itu-otg/jamination-bot.git
       dockerfile: Dockerfile
     container_name: jamination_bot
     restart: unless-stopped
