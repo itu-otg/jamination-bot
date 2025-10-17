@@ -8,8 +8,13 @@ import { GuildMember } from 'discord.js';
 })
 export class UserEvent extends Listener<typeof Events.GuildMemberAdd> {
 	public override async run(member: GuildMember) {
-		if (j8MemberList.includes(member.user.username)) {
-			member.roles.add('1426867656073416755');
+		try {
+			if (j8MemberList.includes(member.user.username)) {
+				await member.roles.add('1426867656073416755');
+				this.container.logger.info(`Giving J8 role to ${member.user.username}`);
+			}
+		} catch (e) {
+			this.container.logger.error(`Error happened while giving auto role ${(e as Error).toString()}`);
 		}
 	}
 }
